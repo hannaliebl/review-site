@@ -1,0 +1,3 @@
+# Review Site: a basic user-submitted review site on Rails
+
+More info coming later...
