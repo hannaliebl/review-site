@@ -10,7 +10,7 @@ describe "StaticPages" do
   end
 
   describe "Home page" do
-    before { visit '/static_pages/home' }
+    before { visit root_path }
 
     let(:heading) { 'How Many Squat Racks?' }
     let(:page_title) { 'Gym Reviews for Weightlifters' }
@@ -19,7 +19,7 @@ describe "StaticPages" do
   end
 
   describe "About page" do
-    before { visit '/static_pages/about' }
+    before { visit about_path }
       
     let(:heading) { 'About' }
     let(:page_title) { 'About' }
