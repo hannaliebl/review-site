@@ -1,3 +1,18 @@
+<%= provide(:title, @user.username) %>
 <div class="container">
-  <%= @user.username %>, <%= @user.email %>
+  <div class="row">
+    <div class="col-md-12">
+      <h1><%= @user.username %></h1>
+      <p><%= @user.username %> has been a member for __ days.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Profile</h2>
+      <p>Farm-to-table retro cardigan freegan sriracha Shoreditch hashtag Williamsburg YOLO master cleanse salvia. Letterpress retro seitan put a bird on it, single-origin coffee chia hashtag photo booth polaroid. Church-key hella pour-over, quinoa polaroid try-hard Brooklyn 90's dreamcatcher fanny pack before they sold out American Apparel. Single-origin coffee Thundercats McSweeney's Neutra, food truck locavore freegan before they sold out Austin PBR&B church-key ennui.</p>
+    </div>
+    <div class="cold-md-8">
+      <h1>Reviews Submitted:</h1>
+    </div>
+  </div>
 </div>
