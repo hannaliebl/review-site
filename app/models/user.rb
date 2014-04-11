@@ -7,4 +7,12 @@ class User < ActiveRecord::Base
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, length: { minimum: 8 }
   has_secure_password
+
+  def to_param
+    username
+  end
+
+  def self.find_by_param(input)
+    find_by_username(input)
+  end
 end
