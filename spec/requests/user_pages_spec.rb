@@ -45,6 +45,7 @@ describe "UserPages" do
         before { click_button "Create Account" }
         let(:user) { User.find_by(email: 'user@example.com') }
 
+        it { should have_link("Log Out") }
         it { should have_title(user.username) }
         it { should have_selector('div.text-success', text: 'Welcome') }
       end
