@@ -11,7 +11,7 @@
       <% if signed_in? %>
       <li><%= link_to "Submit Review", '#' %></li>
       <li><%= link_to "Profile", current_user %></li>
-      <li><%= link_to "Account Settings", '#' %></li>
+      <li><%= link_to "Account Settings", edit_user_path(current_user) %></li>
       <li><%= link_to "Edit Profile", '#' %></li>
       <li><%= link_to "Log Out", logout_path, method: "delete" %></li>
       <% else %>

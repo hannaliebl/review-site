@@ -59,4 +59,64 @@ describe "UserPages" do
     it { should have_content(user.username) }
     it { should have_title(user.username) }
   end
+
+  describe "edit account settings" do
+    let(:user) { FactoryGirl.create(:user) }
+    before { visit edit_user_path(user) }
+
+    describe "page" do
+      it { should have_title("Account Settings") }
+      it { should have_content("Change Your Password") }
+    end
+
+    describe "with valid information" do
+      before do
+        fill_in "Old Password", with: "eightchars"
+        fill_in "New Password", with: "newpassword"
+        fill_in "Password Confirmation", with: "newpassword"
+        click_button('Save New Password')
+      end
+
+      it { should have_content('Password changed') }
+    end
+
+    describe "with invalid information" do
+      before { click_button "Save New Password" }
+
+      it { should have_content('Incorrect') }
+
+      describe "with new passwords that don't match" do
+        before do
+          fill_in "Old Password", with: "eightchars"
+          fill_in "New Password", with: "newpassword1"
+          fill_in "Password Confirmation", with: "newpassword"
+          click_button('Save New Password')
+        end
+
+        it { should have_content('error') }
+      end
+
+      describe "with new password that isn't long enough" do
+        before do
+          fill_in "Old Password", with: "eightchars"
+          fill_in "New Password", with: "short"
+          fill_in "Password Confirmation", with: "short"
+          click_button('Save New Password')
+        end
+
+        it { should have_content('error') }
+      end
+
+      describe "without the proper old password" do
+        before do
+          fill_in "Old Password", with: "wrongpassword"
+          fill_in "New Password", with: "newpassword"
+          fill_in "Password Confirmation", with: "newpassword"
+          click_button('Save New Password')
+        end
+
+        it { should have_content('Incorrect') }
+      end
+    end
+  end
 end
