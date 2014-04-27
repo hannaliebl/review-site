@@ -1,11 +1,14 @@
 ReviewSite::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+  resources :password_resets
   root 'static_pages#home'
   match '/signup', to: 'users#new', via: 'get'
   match '/login', to: 'sessions#new', via: 'get'
   match '/logout', to: 'sessions#destroy', via: 'delete'
   match '/about', to: 'static_pages#about', via: 'get'
+  #match '/reset-password', to: 'password_resets#new', via: 'get'
+  #match '/reset-password', to: 'password_resets#new', via: 'get', as: 'better_password_reset'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
