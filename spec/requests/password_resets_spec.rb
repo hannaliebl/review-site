@@ -28,6 +28,22 @@ describe "PasswordResets" do
       end
 
       it { should have_content "Email sent with password reset instructions." }
+
+      it "should not send a password if the address doesn't exist" do
+          ActionMailer::Base.deliveries.size.should == 0
+      end
+    end
+
+    describe "with a valid user email address" do
+      let(:user) { FactoryGirl.create(:user) }
+      before { fill_in "Email", with: user.email }
+      before { click_button submit }
+
+      it { should have_content "Email sent with password reset instructions." }
+      
+      it "emails a password to the user" do
+        last_email.to.should include(user.email)
+      end
     end
   end
 end

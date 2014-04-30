@@ -7,10 +7,10 @@ ReviewSite::Application.routes.draw do
   match '/login', to: 'sessions#new', via: 'get'
   match '/logout', to: 'sessions#destroy', via: 'delete'
   match '/about', to: 'static_pages#about', via: 'get'
-  #match '/reset-password', to: 'password_resets#new', via: 'get'
-  match '/reset-password', to: 'password_resets#new', via: 'get', as: 'better_password_reset'
+  match '/reset-password/new', to: 'password_resets#new', via: 'get', as: 'better_password_reset'
   match '/reset-password', to: 'password_resets#create', via: 'post'
-  match '/reset-password', to: 'password_resets#update', via: 'patch'
+  match '/reset-password/:id', to: 'password_resets#update', via: 'patch'
+  match '/reset-password/:id/edit', to: 'password_resets#edit', via: 'get', as: 'edit_better_password_reset'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

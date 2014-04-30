@@ -20,3 +20,11 @@ def sign_in(user, options={})
     click_button "Login"
   end
 end
+
+def reset_email
+  ActionMailer::Base.deliveries = []
+end
+
+def last_email
+  ActionMailer::Base.deliveries.last
+end
