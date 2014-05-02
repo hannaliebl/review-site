@@ -40,4 +40,59 @@ describe "AuthenticationPages" do
       end
     end
   end
+
+  describe "authorization" do
+
+    describe "for non-signed in users" do
+      let(:user) { FactoryGirl.create(:user) }
+
+      describe "when attempting to visit a protected page" do
+        before do
+          visit edit_user_path(user)
+          fill_in "Email", with: user.email
+          fill_in "Password", with: user.password
+          click_button "Login"
+        end
+
+        describe "after signing in do" do
+
+          it "should render the desired protected page" do
+            expect(page).to have_title('Account Settings')
+          end
+        end
+      end
+
+      describe "in the Users controller" do
+
+        describe "visiting the edit page" do
+          before { visit edit_user_path(user) }
+
+          it { should have_title('Login') }
+        end
+
+        describe "submitting directly to the update action" do
+          before { patch user_path(user) }
+          specify { expect(response).to redirect_to(login_path) }
+          before { sign_in user, no_capybara: true }
+        end
+      end
+    end
+
+    describe "for wrong user" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:wronguser) { FactoryGirl.create(:user, email: "wrong@example.com", username: "wronguser") }
+      before { sign_in user, no_capybara: true }
+
+      describe "submitting a GET request to Users#edit action" do
+        before { get edit_user_path(wronguser) }
+        specify { expect(response.body).not_to match(full_title('Change Your Password')) }
+        specify { expect(response).to redirect_to(root_url) }
+      end
+
+      describe "submitting a PATCH request to Users#update action" do
+        before { patch user_path(wronguser) }
+        specify { expect(response).to redirect_to(root_url) }
+      end
+    end
+  end
 end

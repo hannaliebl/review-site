@@ -1,4 +1,7 @@
 class UsersController < ApplicationController
+  before_action :signed_in_user, only: [:edit, :update]
+  before_action :correct_user, only: [:edit, :update]
+
   def new
     @user = User.new
   end
@@ -19,11 +22,11 @@ class UsersController < ApplicationController
   end
 
   def edit
-    @user = User.find_by_param(params[:id])
+    #@user = User.find_by_param(params[:id])
   end
 
   def update
-    @user = User.find_by_param(params[:id])
+    #@user = User.find_by_param(params[:id])
     user = User.find_by_param(params[:id]).try(:authenticate, params[:user][:current_password])
     if user && @user.update_attributes(user_params)
       flash[:success] = "Password changed successfully"
@@ -38,5 +41,19 @@ class UsersController < ApplicationController
 
     def user_params
       params.require(:user).permit(:username, :email, :password, :password_confirmation, :current_password)
+    end
+
+    # Before filters
+
+    def signed_in_user
+      unless signed_in?
+        store_location
+        redirect_to login_url, notice: "Please log in." unless signed_in?
+      end
+    end
+
+    def correct_user
+      @user = User.find_by_param(params[:id])
+      redirect_to(root_url) unless current_user?(@user)
     end
 end
