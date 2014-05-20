@@ -1,9 +1,12 @@
 ReviewSite::Application.routes.draw do
-  resources :users
+  resources :users do
+    resource :profile, only: [:edit, :destroy, :new, :create]
+  end
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets
   root 'static_pages#home'
   match '/signup', to: 'users#new', via: 'get'
+  match '/signup', to: 'profile#new', via: 'get'
   match '/login', to: 'sessions#new', via: 'get'
   match '/logout', to: 'sessions#destroy', via: 'delete'
   match '/about', to: 'static_pages#about', via: 'get'

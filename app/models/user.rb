@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  has_secure_password
+  has_one :profile
+  accepts_nested_attributes_for :profile
   before_save { self.email = email.downcase }
   before_save { self.username = username.downcase }
   before_create :create_remember_token
@@ -9,7 +12,6 @@ class User < ActiveRecord::Base
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }, uniqueness: { case_sensitive: false }
   validates :password, length: { minimum: 8 }, :if => :password_required?
   validates :current_password, presence: true, :on => :update, :if => :current_password_required?, :unless => lambda{ |user| user.password.blank? }
-  has_secure_password
 
   def to_param
     username

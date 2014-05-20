@@ -4,12 +4,19 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    @user.profile = Profile.new
   end
 
   def create
     @user = User.new(user_params)
+    #@profile = Profile.new(profile_params)
+    # @profile = @user.build_profile(profile_params)
     if @user.save
+      @profile = @user.build_profile(profile_params)
+      @profile.save
       sign_in @user
+      # @profile = @user.build_profile(profile_params)
+      # @profile = current_user.build_profile(profile_params)
       flash[:success] = "Welcome to How Many Squat Racks!"
       redirect_to @user
     else
@@ -19,14 +26,15 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find_by_param(params[:id])
+    #@profile = @user.profile
   end
 
   def edit
-    #@user = User.find_by_param(params[:id])
+    @user = User.find_by_param(params[:id])
+    #@profile = @user.profile
   end
 
   def update
-    #@user = User.find_by_param(params[:id])
     user = User.find_by_param(params[:id]).try(:authenticate, params[:user][:current_password])
     if user && @user.update_attributes(user_params)
       flash[:success] = "Password changed successfully"
@@ -55,5 +63,9 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find_by_param(params[:id])
       redirect_to(root_url) unless current_user?(@user)
+    end
+
+    def profile_params
+      params.require(:profile).permit(:about)
     end
 end

@@ -54,10 +54,19 @@ describe "UserPages" do
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
+    let!(:profile) { FactoryGirl.create(:profile, :user => user) }
+
     before { visit user_path(user) }
 
     it { should have_content(user.username) }
     it { should have_title(user.username) }
+
+    describe "profile information" do
+
+      it { should have_content(profile.about) }
+      it { should have_content(profile.location) }
+      it { should have_content(profile.type_of_lifter) }
+    end
   end
 
   describe "edit account settings" do
