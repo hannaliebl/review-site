@@ -1,6 +1,6 @@
 ReviewSite::Application.routes.draw do
   resources :users do
-    resource :profile, only: [:edit, :destroy, :new, :create]
+    resource :profile, only: [:edit, :destroy, :new, :create, :update]
   end
   resources :sessions, only: [:new, :create, :destroy]
   resources :password_resets

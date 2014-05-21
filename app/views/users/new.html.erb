@@ -28,16 +28,6 @@
       </div>
 
 
-<%= fields_for @user.profile do |profile_fields| %>
-
-    <div class="field">
-    <%= profile_fields.label :about %><br />
-    <%= profile_fields.text_field :about %>
-    
-
-  <% end %>
-
-
       <%= f.submit "Create Account", class: "btn btn-lg btn-primary" %>
     <% end %>
 
