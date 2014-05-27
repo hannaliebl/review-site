@@ -2,15 +2,45 @@
   <div class="row">
     <div class="col-md-12">
       <h1><%= @user.username %></h1>
-      <p><%= @user.username %> has been a member for __ days.</p>
+      Joined:<% if @user.created_at > Time.now.beginning_of_day %>
+        <%="#{time_ago_in_words(@user.created_at)} ago"%> 
+        <% else %>
+            <%= @user.created_at.strftime("%b %d, %Y") %>
+      <% end %>
     </div>
   </div>
   <div class="row">
     <div class="col-md-4">
       <h2>Profile</h2>
+      <h3>About:</h3>
       <p><%= @user.profile.about %></p>
+      <% if @user.profile.about == "" %>
+        <%= link_to "Fill out your about section", edit_user_profile_path(current_user) %>
+      <% end %>
+      <h3>Location:</h3>
+      <% if @user.profile.location == "" %>
+        <%= link_to "Fill out your location", edit_user_profile_path(current_user) %>
+      <% end %>
       <p><%= @user.profile.location %></p>
-      <p><%= @user.profile.type_of_lifter %></p>
+      <h3>Lifter Type:</h3>
+      <% if @user.profile.lifter_type1 == true %>
+       <p>Powerlifter</p>
+      <% end %>
+      <% if @user.profile.lifter_type2 == true %>
+       <p>Bodybuilder</p>
+      <% end %>
+      <% if @user.profile.lifter_type3 == true %>
+       <p>Olympic</p>
+      <% end %>
+      <% if @user.profile.lifter_type4 == true %>
+       <p>Strongman</p>
+      <% end %>
+      <% if @user.profile.lifter_type5 == true %>
+       <p>Crossfit</p>
+      <% end %>
+      <% if @user.profile.lifter_type6 == true %>
+       <p>Other</p>
+      <% end %>
     </div>
     <div class="cold-md-8">
       <h1>Reviews Submitted:</h1>

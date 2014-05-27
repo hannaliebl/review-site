@@ -35,6 +35,6 @@ class ProfilesController < ApplicationController
   private
 
     def profile_params
-      params.require(:profile).permit(:about, :type_of_lifter, :location)
+      params.require(:profile).permit(:about, :lifter_type1, :lifter_type2, :lifter_type3, :lifter_type4, :lifter_type5, :lifter_type6, :location)
     end
 end
