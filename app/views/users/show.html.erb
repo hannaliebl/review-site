@@ -14,11 +14,11 @@
       <h2>Profile</h2>
       <h3>About:</h3>
       <p><%= @user.profile.about %></p>
-      <% if @user.profile.about == "" %>
+      <% if signed_in? && @user.profile.about == "" %>
         <%= link_to "Fill out your about section", edit_user_profile_path(current_user) %>
       <% end %>
       <h3>Location:</h3>
-      <% if @user.profile.location == "" %>
+      <% if signed_in? && @user.profile.location == "" %>
         <%= link_to "Fill out your location", edit_user_profile_path(current_user) %>
       <% end %>
       <p><%= @user.profile.location %></p>

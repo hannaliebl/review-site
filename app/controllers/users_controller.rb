@@ -8,13 +8,10 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    @profile = Profile.new
     if @user.save
-      @profile = @user.build_profile
-      @profile.save
       sign_in @user
       flash[:success] = "Fill out a profile (optional)"
-      redirect_to  edit_user_profile_path(:user_id => @user)
+      redirect_to  new_user_profile_path(@user)
     else
       render 'new'
     end
@@ -57,9 +54,5 @@ class UsersController < ApplicationController
     def correct_user
       @user = User.find_by_param(params[:id])
       redirect_to(root_url) unless current_user?(@user)
-    end
-
-    def profile_params
-      params.require(:profile).permit(:about)
     end
 end
