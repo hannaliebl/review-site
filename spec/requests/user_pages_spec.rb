@@ -46,15 +46,61 @@ describe "UserPages" do
         let(:user) { User.find_by(email: 'user@example.com') }
 
         it { should have_link("Log Out") }
-        it { should have_title(user.username) }
-        it { should have_selector('div.text-success', text: 'Welcome') }
+        it { should have_title("New Profile") }
+        it { should have_selector('div.text-success', text: 'Fill out') }
+
+        describe "after filling in new profile information" do
+          before do
+            fill_in "About", with: "This is my about section!"
+            check "profile_lifter_type1"
+            fill_in "Location", with: "Ohio"
+          end
+
+          describe "after saving new profile with complete information" do
+            before { click_button "Save Profile" }
+
+            it { should have_content(user.username) }
+            it { should have_title(user.username) }
+            it { should have_content("Welcome to How Many Squat Racks!") }
+            it { should have_content("This is my about section!") }
+            it { should have_content("Powerlifter") }
+            it { should have_content("Ohio") }
+          end
+        end
+
+        describe "after saving new profile with incomplete information" do
+          before do
+            fill_in "About", with: "This is my about section!"
+            check "profile_lifter_type1"
+          end
+
+          describe "after saving new profile with incomplete information" do
+            before { click_button "Save Profile" }
+
+            it { should have_content(user.username) }
+            it { should have_title(user.username) }
+            it { should have_content("Welcome to How Many Squat Racks!") }
+            it { should have_content("This is my about section!") }
+            it { should have_content("Powerlifter") }
+            it { should have_content("Fill out your location") }
+          end
+        end
+
+        describe "after skipping new profile information" do
+          before { click_button "Skip" }
+          it { should have_content(user.username) }
+          it { should have_title(user.username) }
+          it { should have_content("Welcome to How Many Squat Racks!") }
+          it { should have_content("Fill out your about section") }
+          it { should have_content("Fill out your location") }
+        end
       end
     end
   end
 
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
-    let!(:profile) { FactoryGirl.create(:profile, :user => user) }
+    let!(:profile) { FactoryGirl.create(:profile, user: user) }
 
     before { visit user_path(user) }
 
@@ -65,12 +111,19 @@ describe "UserPages" do
 
       it { should have_content(profile.about) }
       it { should have_content(profile.location) }
-      it { should have_content(profile.type_of_lifter) }
+      it { should_not have_content(profile.lifter_type1) }
+      it { should have_content(profile.lifter_type2) }
+      it { should_not have_content(profile.lifter_type3) }
+      it { should_not have_content(profile.lifter_type4) }
+      it { should_not have_content(profile.lifter_type5) }
+      it { should_not have_content(profile.lifter_type6) }
+
     end
   end
 
   describe "edit account settings" do
     let(:user) { FactoryGirl.create(:user) }
+    let!(:profile) { FactoryGirl.create(:profile, user: user, about: "hello") }
     before do
       sign_in user
       visit edit_user_path(user)

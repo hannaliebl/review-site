@@ -7,9 +7,14 @@ FactoryGirl.define do
   end
 
   factory :profile do
-    about "I play my enemies like a game of chess"
+    about "Lorem ipsum lorem ipsum"
     location "Portland, Oregon"
-    type_of_lifter "Powerlifter"
+    lifter_type1 "0"
+    lifter_type2 "1" #bodybuilder
+    lifter_type3 "0"
+    lifter_type4 "0"
+    lifter_type5 "0"
+    lifter_type6 "0"
     user
   end
 end

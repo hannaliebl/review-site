@@ -23,6 +23,7 @@ describe "AuthenticationPages" do
 
     describe "with valid information" do
       let(:user) { FactoryGirl.create(:user) }
+      let!(:profile) { FactoryGirl.create(:profile, user: user) }
       before { sign_in user }
 
       it { should have_title(user.username) }
