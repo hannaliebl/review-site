@@ -7,4 +7,4 @@ This is a review site. It includes the following features/design elements (so fa
 * Password resets via email, influenced closely by the [RailsCast on the subject](http://railscasts.com/episodes/274-remember-me-reset-password)
 * A separate Profile model linked in a has_one relationship to User
 * Tested with RSpec using [Capybara](https://github.com/jnicklas/capybara) and [FactoryGirl](https://github.com/thoughtbot/factory_girl)
-* Mocked out with (Bootstrap)[http://www.getbootstrap.com]
+* Mocked out with [Bootstrap](http://www.getbootstrap.com)
