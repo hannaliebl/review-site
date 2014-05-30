@@ -46,6 +46,7 @@ describe "AuthenticationPages" do
 
     describe "for non-signed in users" do
       let(:user) { FactoryGirl.create(:user) }
+      let!(:profile) { FactoryGirl.create(:profile, user: user) }
 
       describe "when attempting to visit a protected page" do
         before do
@@ -77,6 +78,21 @@ describe "AuthenticationPages" do
           before { sign_in user, no_capybara: true }
         end
       end
+
+      describe "in the Profiles controller" do
+
+        describe "visiting the edit profile page" do
+          before { visit edit_user_profile_path(user) }
+
+          it { should have_title('Login') }
+        end
+
+        describe "submitting directly to the update action" do
+          before { patch user_profile_path(user) }
+          specify { expect(response).to redirect_to(login_path) }
+          before { sign_in user, no_capybara: true }
+        end
+      end
     end
 
     describe "for wrong user" do
@@ -90,8 +106,19 @@ describe "AuthenticationPages" do
         specify { expect(response).to redirect_to(root_url) }
       end
 
+      describe "submitting a GET request to Profiles#edit action" do
+        before { get edit_user_profile_path(wronguser) }
+        specify { expect(response.body).not_to match(full_title('Change Your Password')) }
+        specify { expect(response).to redirect_to(root_url) }
+      end
+
       describe "submitting a PATCH request to Users#update action" do
         before { patch user_path(wronguser) }
+        specify { expect(response).to redirect_to(root_url) }
+      end
+
+      describe "submitting a PATCH request to Profiles#update action" do
+        before { patch user_profile_path(wronguser) }
         specify { expect(response).to redirect_to(root_url) }
       end
     end

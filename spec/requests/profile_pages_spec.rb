@@ -8,8 +8,7 @@ describe "ProfilePages" do
     let!(:profile) { FactoryGirl.create(:profile, user: user) }
     before do      
       sign_in user
-      visit user_path(user)
-      click_link "Edit Profile"
+      visit edit_user_profile_path(user)
     end
 
     it { should have_selector('h1', text: 'Edit Profile') }
